@@ -1,8 +1,13 @@
 import { useState } from 'react'
-import type { FormEvent } from 'react'
+import type { Card } from '../types'
 import { useAppStore } from '../store'
-import { createCard } from '../lib/collection'
+import { removeCard } from '../lib/mutations'
 import { RankingTable } from './RankingTable'
+import { CardEditor } from './CardEditor'
+import { DataFieldsEditor } from './DataFieldsEditor'
+import { ComparisonView } from './ComparisonView'
+
+type EditorState = { open: false } | { open: true; card?: Card }
 
 export function CollectionView() {
   const active = useAppStore((s) => s.active)
@@ -11,26 +16,24 @@ export function CollectionView() {
   const remove = useAppStore((s) => s.remove)
   const updateActive = useAppStore((s) => s.updateActive)
 
-  const [cardName, setCardName] = useState('')
+  const [mode, setMode] = useState<'table' | 'compare'>('table')
+  const [editor, setEditor] = useState<EditorState>({ open: false })
+  const [showDataFields, setShowDataFields] = useState(false)
 
   if (!active) return null
 
-  async function handleAddCard(event: FormEvent) {
-    event.preventDefault()
-    const name = cardName.trim()
-    if (!name) return
-    await updateActive((c) => ({ ...c, cards: [...c.cards, createCard(name)] }))
-    setCardName('')
-  }
-
   async function handleDeleteCard(id: string) {
-    await updateActive((c) => ({ ...c, cards: c.cards.filter((card) => card.id !== id) }))
+    await updateActive((c) => removeCard(c, id))
   }
 
   async function handleDeleteCollection() {
     if (active && confirm(`Sammlung "${active.name}" wirklich löschen?`)) {
       await remove(active.name)
     }
+  }
+
+  if (mode === 'compare') {
+    return <ComparisonView onExit={() => setMode('table')} />
   }
 
   return (
@@ -67,22 +70,41 @@ export function CollectionView() {
         </div>
       </div>
 
-      <form onSubmit={handleAddCard} className="flex flex-wrap gap-2">
-        <input
-          value={cardName}
-          onChange={(e) => setCardName(e.target.value)}
-          placeholder="Kartenname"
-          className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-white outline-none focus:border-violet-500"
-        />
+      <div className="flex flex-wrap gap-2">
         <button
-          type="submit"
+          type="button"
+          onClick={() => setEditor({ open: true })}
           className="rounded-lg bg-violet-600 px-4 py-2 font-medium text-white transition-colors hover:bg-violet-500"
         >
-          Karte hinzufügen
+          + Karte hinzufügen
         </button>
-      </form>
+        <button
+          type="button"
+          onClick={() => setMode('compare')}
+          disabled={active.cards.length < 2}
+          className="rounded-lg bg-emerald-600 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Vergleich starten
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowDataFields(true)}
+          className="rounded-lg border border-slate-700 px-4 py-2 font-medium text-slate-200 transition-colors hover:border-slate-500"
+        >
+          Datenfelder
+        </button>
+      </div>
 
-      <RankingTable cards={active.cards} onDelete={handleDeleteCard} />
+      <RankingTable
+        cards={active.cards}
+        onEdit={(card) => setEditor({ open: true, card })}
+        onDelete={handleDeleteCard}
+      />
+
+      {editor.open && (
+        <CardEditor card={editor.card} onClose={() => setEditor({ open: false })} />
+      )}
+      {showDataFields && <DataFieldsEditor onClose={() => setShowDataFields(false)} />}
     </div>
   )
 }

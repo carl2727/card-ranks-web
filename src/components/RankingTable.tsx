@@ -4,10 +4,11 @@ import { tierColor } from '../lib/tiers'
 
 interface Props {
   cards: Card[]
+  onEdit: (card: Card) => void
   onDelete: (id: string) => void
 }
 
-export function RankingTable({ cards, onDelete }: Props) {
+export function RankingTable({ cards, onEdit, onDelete }: Props) {
   const ranked = rankedCards(cards)
 
   if (ranked.length === 0) {
@@ -23,36 +24,49 @@ export function RankingTable({ cards, onDelete }: Props) {
       <table className="w-full text-left text-sm">
         <thead className="bg-slate-900/60 text-xs uppercase tracking-wider text-slate-400">
           <tr>
-            <th className="px-4 py-3 w-16">Rang</th>
+            <th className="w-14 px-4 py-3">Rang</th>
+            <th className="w-12 px-2 py-3"></th>
             <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3 w-24 text-right">MMR</th>
+            <th className="w-24 px-4 py-3 text-right">MMR</th>
             <th className="px-4 py-3">Tags</th>
-            <th className="px-4 py-3 w-16"></th>
+            <th className="w-28 px-4 py-3"></th>
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-800">
           {ranked.map((card) => (
             <tr key={card.id} className="hover:bg-slate-900/40">
-              <td className="px-4 py-3 font-mono text-slate-400">#{card.rank}</td>
-              <td className="px-4 py-3">
-                <span className="inline-flex items-center gap-2">
-                  <span
-                    className="inline-block h-3 w-3 rounded-full ring-1 ring-black/30"
-                    style={{ backgroundColor: tierColor(card.mmr) }}
-                    aria-hidden="true"
-                  />
-                  <span className="font-medium text-white">{card.name}</span>
-                </span>
+              <td className="px-4 py-2 font-mono text-slate-400">#{card.rank}</td>
+              <td className="px-2 py-2">
+                <div
+                  className="flex h-9 w-9 items-center justify-center overflow-hidden rounded ring-1 ring-black/30"
+                  style={{ backgroundColor: tierColor(card.mmr) }}
+                >
+                  {card.image ? (
+                    <img src={card.image} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="text-xs" aria-hidden="true">
+                      🃏
+                    </span>
+                  )}
+                </div>
               </td>
-              <td className="px-4 py-3 text-right font-mono text-slate-300">{card.mmr}</td>
-              <td className="px-4 py-3 text-slate-400">
+              <td className="px-4 py-2 font-medium text-white">{card.name}</td>
+              <td className="px-4 py-2 text-right font-mono text-slate-300">{card.mmr}</td>
+              <td className="px-4 py-2 text-slate-400">
                 {card.tags.length ? card.tags.join(' · ') : '—'}
               </td>
-              <td className="px-4 py-3 text-right">
+              <td className="px-4 py-2 text-right">
+                <button
+                  type="button"
+                  onClick={() => onEdit(card)}
+                  className="text-xs text-slate-400 transition-colors hover:text-violet-300"
+                >
+                  Bearbeiten
+                </button>
                 <button
                   type="button"
                   onClick={() => onDelete(card.id)}
-                  className="text-xs text-slate-500 transition-colors hover:text-red-400"
+                  className="ml-3 text-xs text-slate-500 transition-colors hover:text-red-400"
                   aria-label={`Karte ${card.name} löschen`}
                 >
                   Löschen
