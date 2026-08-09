@@ -33,16 +33,16 @@ export function DataFieldsEditor({ onClose }: Props) {
   }
 
   return (
-    <Modal title="Datenfelder" onClose={onClose}>
+    <Modal title="Data fields" onClose={onClose}>
       <div className="flex flex-col gap-3">
         <p className="text-sm text-slate-400">
-          Definiere bis zu {MAX_DATA_FIELDS} Felder pro Karte (z. B. Stärke, Kosten).
-          Werte werden pro Karte im Editor gepflegt.
+          Define up to {MAX_DATA_FIELDS} fields per card (e.g. Strength, Cost).
+          Values are set per card in the card editor.
         </p>
 
         {fields.length === 0 && (
           <p className="rounded-lg border border-dashed border-slate-800 py-6 text-center text-sm text-slate-500">
-            Noch keine Datenfelder.
+            No data fields yet.
           </p>
         )}
 
@@ -51,7 +51,7 @@ export function DataFieldsEditor({ onClose }: Props) {
             <input
               value={field.name}
               onChange={(e) => update(index, { name: e.target.value })}
-              placeholder="Feldname"
+              placeholder="Field name"
               className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-white outline-none focus:border-violet-500"
             />
             <select
@@ -69,7 +69,7 @@ export function DataFieldsEditor({ onClose }: Props) {
               type="button"
               onClick={() => setFields(fields.filter((_, i) => i !== index))}
               className="rounded-lg border border-slate-700 px-3 text-slate-400 hover:border-red-800 hover:text-red-400"
-              aria-label="Feld entfernen"
+              aria-label="Remove field"
             >
               ✕
             </button>
@@ -83,7 +83,7 @@ export function DataFieldsEditor({ onClose }: Props) {
             disabled={fields.length >= MAX_DATA_FIELDS}
             className="rounded-lg border border-slate-700 px-3 py-2 text-sm text-slate-200 hover:border-slate-500 disabled:opacity-50"
           >
-            + Feld
+            + Field
           </button>
           <div className="flex gap-2">
             <button
@@ -91,14 +91,14 @@ export function DataFieldsEditor({ onClose }: Props) {
               onClick={onClose}
               className="rounded-lg border border-slate-700 px-4 py-2 text-slate-200 hover:border-slate-500"
             >
-              Abbrechen
+              Cancel
             </button>
             <button
               type="button"
               onClick={handleSave}
               className="rounded-lg bg-violet-600 px-4 py-2 font-medium text-white hover:bg-violet-500"
             >
-              Speichern
+              Save
             </button>
           </div>
         </div>

@@ -43,7 +43,7 @@ export function CardEditor({ card, onClose }: Props) {
       if (target === 'image') setImage(dataUrl)
       else setAltImage(dataUrl)
     } catch {
-      setError('Bild konnte nicht verarbeitet werden.')
+      setError('Image could not be processed.')
     } finally {
       setBusy(false)
     }
@@ -71,7 +71,7 @@ export function CardEditor({ card, onClose }: Props) {
     event.preventDefault()
     const trimmed = name.trim()
     if (!trimmed) {
-      setError('Name darf nicht leer sein.')
+      setError('Name must not be empty.')
       return
     }
     const next: Card = card
@@ -82,7 +82,7 @@ export function CardEditor({ card, onClose }: Props) {
   }
 
   return (
-    <Modal title={card ? 'Karte bearbeiten' : 'Neue Karte'} onClose={onClose}>
+    <Modal title={card ? 'Edit card' : 'New card'} onClose={onClose}>
       <form onSubmit={handleSave} className="flex flex-col gap-4">
         <label className="flex flex-col gap-1 text-sm">
           <span className="text-slate-400">Name</span>
@@ -97,7 +97,7 @@ export function CardEditor({ card, onClose }: Props) {
         <div className="grid grid-cols-2 gap-3">
           {(['image', 'alt'] as const).map((target) => {
             const current = target === 'image' ? image : altImage
-            const label = target === 'image' ? 'Bild' : 'Alternatives Design'
+            const label = target === 'image' ? 'Image' : 'Alternative design'
             return (
               <div key={target} className="flex flex-col gap-1 text-sm">
                 <span className="text-slate-400">{label}</span>
@@ -109,7 +109,7 @@ export function CardEditor({ card, onClose }: Props) {
                   {current ? (
                     <img src={current} alt="" className="h-full w-full object-cover" />
                   ) : (
-                    <span>Klicken oder Datei ablegen</span>
+                    <span>Click or drop a file</span>
                   )}
                   <input
                     type="file"
@@ -124,7 +124,7 @@ export function CardEditor({ card, onClose }: Props) {
                     onClick={() => (target === 'image' ? setImage(null) : setAltImage(null))}
                     className="text-xs text-slate-500 hover:text-red-400"
                   >
-                    Bild entfernen
+                    Remove image
                   </button>
                 )}
               </div>
@@ -145,7 +145,7 @@ export function CardEditor({ card, onClose }: Props) {
                   type="button"
                   onClick={() => setTags(tags.filter((t) => t !== tag))}
                   className="text-slate-500 hover:text-red-400"
-                  aria-label={`Tag ${tag} entfernen`}
+                  aria-label={`Remove tag ${tag}`}
                 >
                   ✕
                 </button>
@@ -157,7 +157,7 @@ export function CardEditor({ card, onClose }: Props) {
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
               onKeyDown={onTagKey}
-              placeholder="Tag eingeben, Enter"
+              placeholder="Type a tag, then Enter"
               className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-white outline-none focus:border-violet-500"
             />
             <button
@@ -172,7 +172,7 @@ export function CardEditor({ card, onClose }: Props) {
 
         {dataFields.length > 0 && (
           <div className="flex flex-col gap-2 text-sm">
-            <span className="text-slate-400">Datenfelder</span>
+            <span className="text-slate-400">Data fields</span>
             {dataFields.map((field) => (
               <label key={field.name} className="flex items-center gap-2">
                 <span className="w-32 shrink-0 text-slate-300">{field.name}</span>
@@ -196,14 +196,14 @@ export function CardEditor({ card, onClose }: Props) {
             onClick={onClose}
             className="rounded-lg border border-slate-700 px-4 py-2 text-slate-200 hover:border-slate-500"
           >
-            Abbrechen
+            Cancel
           </button>
           <button
             type="submit"
             disabled={busy}
             className="rounded-lg bg-violet-600 px-4 py-2 font-medium text-white hover:bg-violet-500 disabled:opacity-50"
           >
-            {busy ? 'Verarbeite…' : 'Speichern'}
+            {busy ? 'Processing…' : 'Save'}
           </button>
         </div>
       </form>

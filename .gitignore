@@ -15,6 +15,9 @@ dist-ssr
 # Lokales Aufgaben-Ledger (nicht versioniert)
 LEDGER.md
 
+# Ausgabe des Migrations-Skripts
+migrated
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -78,7 +78,7 @@ function migrateLegacy(raw: Record<string, unknown>): Collection {
   }
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
-    name: typeof raw.name === 'string' ? raw.name : 'Importiert',
+    name: typeof raw.name === 'string' ? raw.name : 'Imported',
     dataFields,
     cards,
   }
@@ -90,11 +90,11 @@ export function parseCollection(json: string): ParseResult {
   try {
     raw = JSON.parse(json)
   } catch {
-    return { ok: false, error: 'Ungültiges JSON – Datei konnte nicht gelesen werden.' }
+    return { ok: false, error: 'Invalid JSON – the file could not be read.' }
   }
-  if (!isRecord(raw)) return { ok: false, error: 'JSON enthält kein Objekt.' }
+  if (!isRecord(raw)) return { ok: false, error: 'JSON does not contain an object.' }
   if (typeof raw.name !== 'string' || !raw.name.trim()) {
-    return { ok: false, error: 'Sammlung hat keinen gültigen Namen.' }
+    return { ok: false, error: 'Collection has no valid name.' }
   }
 
   // Legacy-Erkennung: altes Format nutzte data_fields (snake_case) und kein schemaVersion.

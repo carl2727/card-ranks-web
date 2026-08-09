@@ -16,11 +16,11 @@ function App() {
     <div className="mx-auto min-h-svh w-full max-w-4xl px-4 py-8 sm:py-12">
       <header className="mb-8 flex items-baseline gap-3">
         <h1 className="text-2xl font-semibold text-white">Card Ranks</h1>
-        <span className="text-sm text-slate-500">MMR-Karten-Ranking</span>
+        <span className="text-sm text-slate-500">MMR card ranking</span>
       </header>
 
       {!ready ? (
-        <p className="text-center text-slate-500">Lädt…</p>
+        <p className="text-center text-slate-500">Loading…</p>
       ) : active ? (
         <CollectionView />
       ) : (

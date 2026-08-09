@@ -30,20 +30,20 @@ export function seedParticipants(cards: readonly Card[], size: number): string[]
   return order
 }
 
-/** Name der aktuellen Runde nach Teilnehmerzahl. */
+/** Name of the current round based on the number of participants. */
 export function roundName(participantCount: number): string {
   switch (participantCount) {
     case 2:
-      return 'Finale'
+      return 'Final'
     case 4:
-      return 'Halbfinale'
+      return 'Semifinal'
     case 8:
-      return 'Viertelfinale'
+      return 'Quarterfinal'
     case 16:
-      return 'Achtelfinale'
+      return 'Round of 16'
     case 32:
-      return 'Sechzehntelfinale'
+      return 'Round of 32'
     default:
-      return `${participantCount}er-Runde`
+      return `Round of ${participantCount}`
   }
 }

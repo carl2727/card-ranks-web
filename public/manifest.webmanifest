@@ -1,7 +1,7 @@
 {
   "name": "Card Ranks",
   "short_name": "Card Ranks",
-  "description": "MMR-basiertes Karten-Ranking – rein clientseitig, Daten bleiben bei dir.",
+  "description": "MMR-based card ranking – fully client-side, your data stays with you.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

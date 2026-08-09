@@ -28,7 +28,7 @@ export function CollectionView() {
   }
 
   async function handleDeleteCollection() {
-    if (active && confirm(`Sammlung "${active.name}" wirklich löschen?`)) {
+    if (active && confirm(`Delete collection "${active.name}"?`)) {
       await remove(active.name)
     }
   }
@@ -49,11 +49,11 @@ export function CollectionView() {
             onClick={close}
             className="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-200 transition-colors hover:border-slate-500"
           >
-            ← Zurück
+            ← Back
           </button>
           <h2 className="text-xl font-semibold text-white">{active.name}</h2>
           <span className="text-sm text-slate-500">
-            {active.cards.length} {active.cards.length === 1 ? 'Karte' : 'Karten'}
+            {active.cards.length} {active.cards.length === 1 ? 'card' : 'cards'}
           </span>
         </div>
         <div className="flex gap-2">
@@ -69,7 +69,7 @@ export function CollectionView() {
             onClick={handleDeleteCollection}
             className="rounded-lg border border-red-900/60 px-3 py-1.5 text-sm text-red-400 transition-colors hover:bg-red-950/40"
           >
-            Löschen
+            Delete
           </button>
         </div>
       </div>
@@ -80,7 +80,7 @@ export function CollectionView() {
           onClick={() => setEditor({ open: true })}
           className="rounded-lg bg-violet-600 px-4 py-2 font-medium text-white transition-colors hover:bg-violet-500"
         >
-          + Karte hinzufügen
+          + Add card
         </button>
         <button
           type="button"
@@ -88,7 +88,7 @@ export function CollectionView() {
           disabled={active.cards.length < 2}
           className="rounded-lg bg-emerald-600 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Vergleich starten
+          Start comparison
         </button>
         <button
           type="button"
@@ -96,14 +96,14 @@ export function CollectionView() {
           disabled={active.cards.length < 4}
           className="rounded-lg bg-amber-600 px-4 py-2 font-medium text-white transition-colors hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Bracket starten
+          Start bracket
         </button>
         <button
           type="button"
           onClick={() => setShowDataFields(true)}
           className="rounded-lg border border-slate-700 px-4 py-2 font-medium text-slate-200 transition-colors hover:border-slate-500"
         >
-          Datenfelder
+          Data fields
         </button>
       </div>
 

@@ -46,9 +46,9 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   create: async (name) => {
     const trimmed = name.trim()
-    if (!trimmed) return { ok: false, error: 'Name darf nicht leer sein.' }
+    if (!trimmed) return { ok: false, error: 'Name must not be empty.' }
     if (get().names.includes(trimmed)) {
-      return { ok: false, error: 'Eine Sammlung mit diesem Namen existiert bereits.' }
+      return { ok: false, error: 'A collection with this name already exists.' }
     }
     const collection = createCollection(trimmed)
     await db.saveCollection(collection)
@@ -68,7 +68,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (get().names.includes(collection.name)) {
       return {
         ok: false,
-        error: `Eine Sammlung "${collection.name}" existiert bereits.`,
+        error: `A collection named "${collection.name}" already exists.`,
       }
     }
     await db.saveCollection(collection)

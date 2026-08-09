@@ -98,13 +98,13 @@ export function ComparisonView({ onExit }: Props) {
   if (!enoughCards) {
     return (
       <div className="flex flex-col items-center gap-4 py-10">
-        <p className="text-slate-400">Für den Vergleich werden mindestens 2 Karten benötigt.</p>
+        <p className="text-slate-400">Comparison needs at least 2 cards.</p>
         <button
           type="button"
           onClick={onExit}
           className="rounded-lg border border-slate-700 px-4 py-2 text-slate-200 hover:border-slate-500"
         >
-          Zurück
+          Back
         </button>
       </div>
     )
@@ -124,17 +124,17 @@ export function ComparisonView({ onExit }: Props) {
             onClick={() => chooseWinner(card.id, otherId)}
             className="w-full max-w-xs rounded-lg bg-emerald-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-emerald-500"
           >
-            Diese Karte gewinnt
+            This card wins
           </button>
         ) : (
-          <span className="text-sm text-slate-500">MMR aktualisiert</span>
+          <span className="text-sm text-slate-500">MMR updated</span>
         )}
         <button
           type="button"
           onClick={() => setEditingId(card.id)}
           className="text-xs text-slate-500 hover:text-slate-300"
         >
-          Bearbeiten
+          Edit
         </button>
       </div>
     )
@@ -143,13 +143,13 @@ export function ComparisonView({ onExit }: Props) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white">Vergleich</h2>
+        <h2 className="text-lg font-semibold text-white">Comparison</h2>
         <button
           type="button"
           onClick={onExit}
           className="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-200 hover:border-slate-500"
         >
-          Zurück zur Sammlung
+          Back to collection
         </button>
       </div>
 
@@ -169,17 +169,17 @@ export function ComparisonView({ onExit }: Props) {
               onClick={undo}
               className="rounded-lg border border-slate-700 px-4 py-3 font-medium text-slate-200 hover:border-slate-500"
             >
-              ↶ Rückgängig
+              ↶ Undo
             </button>
             <button
               type="button"
               onClick={nextPair}
               className="rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white hover:bg-violet-500"
             >
-              Nächstes Paar →
+              Next pair →
             </button>
           </div>
-          <span className="text-xs text-slate-600">Tipp: ← / → wählen, Enter weiter</span>
+          <span className="text-xs text-slate-600">Tip: ← / → to choose, Enter to continue</span>
         </div>
       )}
 

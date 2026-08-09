@@ -14,7 +14,7 @@ export function RankingTable({ cards, onEdit, onDelete }: Props) {
   if (ranked.length === 0) {
     return (
       <p className="rounded-lg border border-dashed border-slate-800 py-10 text-center text-slate-500">
-        Noch keine Karten. Füge oben deine erste Karte hinzu.
+        No cards yet. Add your first card above.
       </p>
     )
   }
@@ -24,7 +24,7 @@ export function RankingTable({ cards, onEdit, onDelete }: Props) {
       <table className="w-full text-left text-sm">
         <thead className="bg-slate-900/60 text-xs uppercase tracking-wider text-slate-400">
           <tr>
-            <th className="w-14 px-4 py-3">Rang</th>
+            <th className="w-14 px-4 py-3">Rank</th>
             <th className="w-12 px-2 py-3"></th>
             <th className="px-4 py-3">Name</th>
             <th className="w-24 px-4 py-3 text-right">MMR</th>
@@ -61,15 +61,15 @@ export function RankingTable({ cards, onEdit, onDelete }: Props) {
                   onClick={() => onEdit(card)}
                   className="text-xs text-slate-400 transition-colors hover:text-violet-300"
                 >
-                  Bearbeiten
+                  Edit
                 </button>
                 <button
                   type="button"
                   onClick={() => onDelete(card.id)}
                   className="ml-3 text-xs text-slate-500 transition-colors hover:text-red-400"
-                  aria-label={`Karte ${card.name} löschen`}
+                  aria-label={`Delete card ${card.name}`}
                 >
-                  Löschen
+                  Delete
                 </button>
               </td>
             </tr>

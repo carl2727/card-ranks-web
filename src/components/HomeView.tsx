@@ -21,7 +21,7 @@ export function HomeView() {
       setNewName('')
       setError(null)
     } else {
-      setError(result.error ?? 'Fehler beim Anlegen.')
+      setError(result.error ?? 'Could not create collection.')
     }
   }
 
@@ -35,11 +35,11 @@ export function HomeView() {
       return
     }
     const result = await importCollection(parsed.collection)
-    setError(result.ok ? null : (result.error ?? 'Import fehlgeschlagen.'))
+    setError(result.ok ? null : (result.error ?? 'Import failed.'))
   }
 
   async function handleDelete(name: string) {
-    if (confirm(`Sammlung "${name}" wirklich löschen?`)) {
+    if (confirm(`Delete collection "${name}"?`)) {
       await remove(name)
     }
   }
@@ -48,27 +48,27 @@ export function HomeView() {
     <div className="flex flex-col gap-8">
       <section className="flex flex-col gap-3 rounded-xl border border-slate-800 bg-slate-900/50 p-5">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-          Neue Sammlung
+          New collection
         </h2>
         <form onSubmit={handleCreate} className="flex flex-wrap gap-2">
           <input
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
-            placeholder="Name der Sammlung"
+            placeholder="Collection name"
             className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-white outline-none focus:border-violet-500"
           />
           <button
             type="submit"
             className="rounded-lg bg-violet-600 px-4 py-2 font-medium text-white transition-colors hover:bg-violet-500"
           >
-            Erstellen
+            Create
           </button>
           <button
             type="button"
             onClick={() => fileInput.current?.click()}
             className="rounded-lg border border-slate-700 px-4 py-2 font-medium text-slate-200 transition-colors hover:border-slate-500"
           >
-            JSON importieren
+            Import JSON
           </button>
           <input
             ref={fileInput}
@@ -83,11 +83,11 @@ export function HomeView() {
 
       <section className="flex flex-col gap-3">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-          Deine Sammlungen
+          Your collections
         </h2>
         {names.length === 0 ? (
           <p className="rounded-lg border border-dashed border-slate-800 py-10 text-center text-slate-500">
-            Noch keine Sammlungen. Lege oben eine an oder importiere eine JSON-Datei.
+            No collections yet. Create one above or import a JSON file.
           </p>
         ) : (
           <ul className="divide-y divide-slate-800 overflow-hidden rounded-lg border border-slate-800">
@@ -108,7 +108,7 @@ export function HomeView() {
                   onClick={() => handleDelete(name)}
                   className="text-xs text-slate-500 transition-colors hover:text-red-400"
                 >
-                  Löschen
+                  Delete
                 </button>
               </li>
             ))}

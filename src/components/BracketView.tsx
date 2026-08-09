@@ -95,7 +95,7 @@ export function BracketView({ onExit }: Props) {
   if (!active) return null
   if (active.cards.length < 2) {
     return (
-      <Centered onExit={onExit}>Für ein Bracket werden mindestens 2 Karten benötigt.</Centered>
+      <Centered onExit={onExit}>A bracket needs at least 2 cards.</Centered>
     )
   }
 
@@ -106,13 +106,13 @@ export function BracketView({ onExit }: Props) {
     return (
       <div className="flex flex-col items-center gap-6">
         <div className="flex items-center justify-between self-stretch">
-          <h2 className="text-lg font-semibold text-white">🏆 Sieger</h2>
+          <h2 className="text-lg font-semibold text-white">🏆 Winner</h2>
           <button
             type="button"
             onClick={onExit}
             className="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-200 hover:border-slate-500"
           >
-            Zurück zur Sammlung
+            Back to collection
           </button>
         </div>
         <CardFace card={championCard} rank={1} />
@@ -121,7 +121,7 @@ export function BracketView({ onExit }: Props) {
           onClick={start}
           className="rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white hover:bg-violet-500"
         >
-          Neues Bracket
+          New bracket
         </button>
       </div>
     )
@@ -137,7 +137,7 @@ export function BracketView({ onExit }: Props) {
             onClick={() => chooseWinner(card.id, otherId)}
             className="w-full max-w-xs rounded-lg bg-emerald-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-emerald-500"
           >
-            Kommt weiter
+            Advances
           </button>
         ) : (
           <span className="text-sm text-slate-500">—</span>
@@ -147,7 +147,7 @@ export function BracketView({ onExit }: Props) {
           onClick={() => setEditingId(card.id)}
           className="text-xs text-slate-500 hover:text-slate-300"
         >
-          Bearbeiten
+          Edit
         </button>
       </div>
     )
@@ -161,7 +161,7 @@ export function BracketView({ onExit }: Props) {
             Bracket · {roundName(participants.length)}
           </h2>
           <p className="text-sm text-slate-500">
-            Runde {roundNumber} · Match {matchIndex + 1} von {totalMatches}
+            Round {roundNumber} · Match {matchIndex + 1} of {totalMatches}
           </p>
         </div>
         <button
@@ -169,7 +169,7 @@ export function BracketView({ onExit }: Props) {
           onClick={onExit}
           className="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-200 hover:border-slate-500"
         >
-          Abbrechen
+          Cancel
         </button>
       </div>
 
@@ -188,9 +188,9 @@ export function BracketView({ onExit }: Props) {
             onClick={advance}
             className="rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white hover:bg-violet-500"
           >
-            {matchIndex + 1 < totalMatches ? 'Nächstes Match →' : 'Nächste Runde →'}
+            {matchIndex + 1 < totalMatches ? 'Next match →' : 'Next round →'}
           </button>
-          <span className="text-xs text-slate-600">Tipp: ← / → wählen, Enter weiter</span>
+          <span className="text-xs text-slate-600">Tip: ← / → to choose, Enter to continue</span>
         </div>
       )}
 
@@ -208,7 +208,7 @@ function Centered({ children, onExit }: { children: ReactNode; onExit: () => voi
         onClick={onExit}
         className="rounded-lg border border-slate-700 px-4 py-2 text-slate-200 hover:border-slate-500"
       >
-        Zurück
+        Back
       </button>
     </div>
   )

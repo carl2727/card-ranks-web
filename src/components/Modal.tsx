@@ -35,7 +35,7 @@ export function Modal({ title, onClose, children }: Props) {
             type="button"
             onClick={onClose}
             className="text-slate-400 transition-colors hover:text-white"
-            aria-label="Schließen"
+            aria-label="Close"
           >
             ✕
           </button>
