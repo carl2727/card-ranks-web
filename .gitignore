@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Lokales Aufgaben-Ledger (nicht versioniert)
+LEDGER.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
