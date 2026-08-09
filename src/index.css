@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+/* Card Ranks Web – Basis-Theme.
+   Dark Mode standardmäßig aktiv; Tailwind v4 nutzt CSS-first-Konfiguration. */
+@theme {
+  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  min-height: 100svh;
+}
+
+body {
+  margin: 0;
+  @apply bg-slate-950 text-slate-200 antialiased;
+}
