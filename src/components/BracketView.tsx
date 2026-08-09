@@ -135,7 +135,7 @@ export function BracketView({ onExit }: Props) {
           <button
             type="button"
             onClick={() => chooseWinner(card.id, otherId)}
-            className="w-full max-w-xs rounded-lg bg-emerald-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-emerald-500"
+            className="w-[30rem] max-w-full rounded-lg bg-emerald-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-emerald-500"
           >
             Advances
           </button>
