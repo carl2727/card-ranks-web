@@ -39,5 +39,16 @@ unit-getestet implementiert (leicht aus `card-ranks/mmr_system.py` portierbar).
 
 ## Status
 
-Projekt in Planung/Setup. Noch kein Anwendungscode — bisher nur ADRs und diese
-Datei. Nächster Schritt: Projekt-Scaffolding gemäß ADR-0003.
+Phasen 1–7 umgesetzt und auf GitHub Pages deployt
+(https://carl2727.github.io/card-ranks-web/):
+
+1. Setup + Pages-Deploy (GitHub Actions)
+2. Datenschicht (IndexedDB, JSON Import/Export, Bildkomprimierung, MMR-Logik)
+3. Collection-Management-UI
+4. Karten-Editor (Bild-Upload, Tags, Datenfelder)
+5. 1v1-Vergleich mit MMR-Animation
+6. Bracket-Modus (Top-N-Seeding, Sieger)
+7. Politur (Tastatur-Shortcuts ←/→/Enter, Undo, PWA/Service Worker)
+
+Offen/optional: automatisierte Tests der reinen Logik (`src/lib/mmr`, `bracket`,
+`mutations`), UX-Feinschliff, Aktualisierung der Action-Versionen (Node-20-Warnung).
