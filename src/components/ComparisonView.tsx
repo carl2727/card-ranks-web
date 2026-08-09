@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Card } from '../types'
 import { useAppStore } from '../store'
 import { rankedCards } from '../lib/collection'
@@ -33,6 +33,17 @@ export function ComparisonView({ onExit }: Props) {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [lastMatch, setLastMatch] = useState<LastMatch | null>(null)
 
+  // Zeit, die die MMR-Animation sichtbar bleibt, bevor automatisch weitergeschaltet wird.
+  const AUTO_ADVANCE_MS = 1200
+  const advanceTimer = useRef<number | null>(null)
+
+  const clearAdvance = useCallback(() => {
+    if (advanceTimer.current !== null) {
+      clearTimeout(advanceTimer.current)
+      advanceTimer.current = null
+    }
+  }, [])
+
   const enoughCards = !!active && active.cards.length >= 2
 
   useEffect(() => {
@@ -41,11 +52,15 @@ export function ComparisonView({ onExit }: Props) {
     }
   }, [enoughCards, active, pairIds])
 
+  // Beim Verlassen der Ansicht einen laufenden Timer aufräumen.
+  useEffect(() => clearAdvance, [clearAdvance])
+
   const nextPair = useCallback(() => {
+    clearAdvance()
     if (active) setPairIds(pickPair(active.cards))
     setPhase('choose')
     setLastMatch(null)
-  }, [active])
+  }, [active, clearAdvance])
 
   const chooseWinner = useCallback(
     async (winnerId: string, loserId: string) => {
@@ -56,12 +71,16 @@ export function ComparisonView({ onExit }: Props) {
       setLastMatch({ winnerId, loserId, winnerMmr: winner.mmr, loserMmr: loser.mmr })
       await updateActive((c) => applyMatch(c, winnerId, loserId))
       setPhase('result')
+      // MMR-Animation kurz zeigen, dann automatisch zum nächsten Paar.
+      clearAdvance()
+      advanceTimer.current = window.setTimeout(nextPair, AUTO_ADVANCE_MS)
     },
-    [active, phase, updateActive],
+    [active, phase, updateActive, nextPair, clearAdvance],
   )
 
   const undo = useCallback(async () => {
     if (!lastMatch) return
+    clearAdvance()
     const lm = lastMatch
     await updateActive((c) => ({
       ...c,
@@ -73,7 +92,7 @@ export function ComparisonView({ onExit }: Props) {
     }))
     setLastMatch(null)
     setPhase('choose')
-  }, [lastMatch, updateActive])
+  }, [lastMatch, updateActive, clearAdvance])
 
   const cardA = active && pairIds ? active.cards.find((c) => c.id === pairIds[0]) : undefined
   const cardB = active && pairIds ? active.cards.find((c) => c.id === pairIds[1]) : undefined
@@ -163,23 +182,14 @@ export function ComparisonView({ onExit }: Props) {
 
       {phase === 'result' && (
         <div className="flex flex-col items-center gap-2">
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={undo}
-              className="rounded-lg border border-slate-700 px-4 py-3 font-medium text-slate-200 hover:border-slate-500"
-            >
-              ↶ Undo
-            </button>
-            <button
-              type="button"
-              onClick={nextPair}
-              className="rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white hover:bg-violet-500"
-            >
-              Next pair →
-            </button>
-          </div>
-          <span className="text-xs text-slate-600">Tip: ← / → to choose, Enter to continue</span>
+          <button
+            type="button"
+            onClick={undo}
+            className="rounded-lg border border-slate-700 px-4 py-3 font-medium text-slate-200 hover:border-slate-500"
+          >
+            ↶ Undo
+          </button>
+          <span className="text-xs text-slate-600">Tip: ← / → to choose, Enter to skip ahead</span>
         </div>
       )}
 

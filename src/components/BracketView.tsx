@@ -24,6 +24,9 @@ export function BracketView({ onExit }: Props) {
   const [started, setStarted] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
 
+  // Zeit, die die MMR-Animation sichtbar bleibt, bevor automatisch weitergeschaltet wird.
+  const AUTO_ADVANCE_MS = 1200
+
   function start() {
     if (!active) return
     const size = bracketSize(active.cards.length)
@@ -73,7 +76,14 @@ export function BracketView({ onExit }: Props) {
     setPhase('choose')
   }, [matchIndex, totalMatches, winners])
 
-  // Tastatur-Shortcuts: ← / → wählen den Gewinner, Enter/Leer geht weiter.
+  // Nach der Wahl kurz die MMR-Animation zeigen, dann automatisch weiterschalten.
+  useEffect(() => {
+    if (phase !== 'result' || champion) return
+    const t = window.setTimeout(() => advance(), AUTO_ADVANCE_MS)
+    return () => clearTimeout(t)
+  }, [phase, champion, advance])
+
+  // Tastatur-Shortcuts: ← / → wählen den Gewinner, Enter/Leer überspringt die Pause.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (editingId) return
@@ -183,14 +193,7 @@ export function BracketView({ onExit }: Props) {
 
       {phase === 'result' && (
         <div className="flex flex-col items-center gap-2">
-          <button
-            type="button"
-            onClick={advance}
-            className="rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white hover:bg-violet-500"
-          >
-            {matchIndex + 1 < totalMatches ? 'Next match →' : 'Next round →'}
-          </button>
-          <span className="text-xs text-slate-600">Tip: ← / → to choose, Enter to continue</span>
+          <span className="text-xs text-slate-600">Tip: ← / → to choose, Enter to skip ahead</span>
         </div>
       )}
 
