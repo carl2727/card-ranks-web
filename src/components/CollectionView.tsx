@@ -6,6 +6,7 @@ import { RankingTable } from './RankingTable'
 import { CardEditor } from './CardEditor'
 import { DataFieldsEditor } from './DataFieldsEditor'
 import { ComparisonView } from './ComparisonView'
+import { BracketView } from './BracketView'
 
 type EditorState = { open: false } | { open: true; card?: Card }
 
@@ -16,7 +17,7 @@ export function CollectionView() {
   const remove = useAppStore((s) => s.remove)
   const updateActive = useAppStore((s) => s.updateActive)
 
-  const [mode, setMode] = useState<'table' | 'compare'>('table')
+  const [mode, setMode] = useState<'table' | 'compare' | 'bracket'>('table')
   const [editor, setEditor] = useState<EditorState>({ open: false })
   const [showDataFields, setShowDataFields] = useState(false)
 
@@ -34,6 +35,9 @@ export function CollectionView() {
 
   if (mode === 'compare') {
     return <ComparisonView onExit={() => setMode('table')} />
+  }
+  if (mode === 'bracket') {
+    return <BracketView onExit={() => setMode('table')} />
   }
 
   return (
@@ -85,6 +89,14 @@ export function CollectionView() {
           className="rounded-lg bg-emerald-600 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Vergleich starten
+        </button>
+        <button
+          type="button"
+          onClick={() => setMode('bracket')}
+          disabled={active.cards.length < 4}
+          className="rounded-lg bg-amber-600 px-4 py-2 font-medium text-white transition-colors hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Bracket starten
         </button>
         <button
           type="button"
