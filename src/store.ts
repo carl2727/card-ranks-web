@@ -22,7 +22,7 @@ interface AppState {
   create: (name: string) => Promise<{ ok: boolean; error?: string }>
   /** Vorhandene Sammlung öffnen. */
   open: (name: string) => Promise<void>
-  active_close: () => void
+  close: () => void
   /** Importierte Sammlung speichern und öffnen (Namenskonflikt wird gemeldet). */
   importCollection: (collection: Collection) => Promise<{ ok: boolean; error?: string }>
   /** Aktive Sammlung transformieren und persistieren. */
@@ -62,7 +62,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (collection) set({ active: collection })
   },
 
-  active_close: () => set({ active: null }),
+  close: () => set({ active: null }),
 
   importCollection: async (collection) => {
     if (get().names.includes(collection.name)) {

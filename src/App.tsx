@@ -1,48 +1,31 @@
-import { tierForMmr, TIERS } from './lib/tiers'
-import { updateRatings } from './lib/mmr'
-import { DEFAULT_MMR } from './types'
+import { useEffect } from 'react'
+import { useAppStore } from './store'
+import { HomeView } from './components/HomeView'
+import { CollectionView } from './components/CollectionView'
 
 function App() {
-  // Kleiner Live-Beleg, dass die portierte MMR-Logik greift.
-  const demo = updateRatings(DEFAULT_MMR, DEFAULT_MMR)
+  const ready = useAppStore((s) => s.ready)
+  const active = useAppStore((s) => s.active)
+  const refresh = useAppStore((s) => s.refresh)
+
+  useEffect(() => {
+    void refresh()
+  }, [refresh])
 
   return (
-    <div className="mx-auto flex min-h-svh max-w-3xl flex-col items-center justify-center gap-8 px-6 py-16 text-center">
-      <div>
-        <p className="mb-3 text-sm font-medium uppercase tracking-widest text-violet-400">
-          Setup erfolgreich
-        </p>
-        <h1 className="text-4xl font-semibold text-white sm:text-5xl">Card Ranks Web</h1>
-        <p className="mt-4 text-slate-400">
-          MMR-basiertes Karten-Ranking im Browser. Grundgerüst steht – React, Vite,
-          TypeScript und Tailwind laufen.
-        </p>
-      </div>
+    <div className="mx-auto min-h-svh w-full max-w-4xl px-4 py-8 sm:py-12">
+      <header className="mb-8 flex items-baseline gap-3">
+        <h1 className="text-2xl font-semibold text-white">Card Ranks</h1>
+        <span className="text-sm text-slate-500">MMR-Karten-Ranking</span>
+      </header>
 
-      <div className="w-full rounded-xl border border-slate-800 bg-slate-900/60 p-5 text-left">
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-400">
-          Selbsttest der portierten Logik
-        </h2>
-        <p className="font-mono text-sm text-slate-300">
-          Zwei 1500er-Karten, linke gewinnt → Gewinner {demo.winner}, Verlierer {demo.loser}
-        </p>
-      </div>
-
-      <div className="flex flex-wrap items-center justify-center gap-2">
-        {TIERS.map((t) => (
-          <span
-            key={t.name}
-            className="rounded-full px-3 py-1 text-xs font-semibold text-black/80"
-            style={{ backgroundColor: t.color }}
-          >
-            {t.name} · ≥{t.min}
-          </span>
-        ))}
-      </div>
-
-      <p className="text-xs text-slate-500">
-        Aktuelles Tier bei MMR 1700: <strong>{tierForMmr(1700).name}</strong>
-      </p>
+      {!ready ? (
+        <p className="text-center text-slate-500">Lädt…</p>
+      ) : active ? (
+        <CollectionView />
+      ) : (
+        <HomeView />
+      )}
     </div>
   )
 }
